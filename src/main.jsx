@@ -8,8 +8,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <div>Hello World!</div>,
   },
-  // root route - the rest of routes will render inside of the root route
-  // it will serve as the root layout of the UI, it will contain nested layouts
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
