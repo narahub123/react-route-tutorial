@@ -5,11 +5,13 @@ import {
   useLoaderData,
   Form,
   redirect,
+  useNavigation,
 } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
 
 export async function action() {
   const contact = await createContact();
+
   return redirect(`/contacts/${contact.id}/edit`);
 } // action() ends
 
@@ -20,6 +22,7 @@ export async function loader() {
 
 const Root = () => {
   const { contacts } = useLoaderData();
+  const navigation = useNavigation();
   return (
     <>
       <div id="sidebar">
@@ -69,7 +72,10 @@ const Root = () => {
           )}
         </nav>
       </div>
-      <div id="detail">
+      <div
+        id="detail"
+        className={navigation.state === "loading" ? "loading" : ""}
+      >
         <Outlet />
       </div>
     </>
