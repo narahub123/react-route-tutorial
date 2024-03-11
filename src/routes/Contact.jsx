@@ -1,11 +1,18 @@
 import React from "react";
-import { Form, useLoaderData } from "react-router-dom";
-import { getContact } from "../contacts";
+import { Form, useLoaderData, useFetcher } from "react-router-dom";
+import { getContact, updateContact } from "../contacts";
 
 export async function loader({ params }) {
   const contact = await getContact(params.contactId);
   return { contact };
-}
+} // loader() ends
+
+export async function action({ request, params }) {
+  let formData = await request.formData();
+  return updateContact(params.contactId, {
+    favorite: formData.get("favorite") === "true",
+  });
+} // action() ends
 
 const Contact = () => {
   const { contact } = useLoaderData();
@@ -63,17 +70,18 @@ const Contact = () => {
 };
 
 function Favorite({ contact }) {
+  const fetcher = useFetcher();
   let favorite = contact.favorite;
   return (
-    <Form method="post">
+    <fetcher.Form method="post">
       <button
         name="favorite"
-        value={favorite ? "false" : "ture"}
+        value={favorite ? "false" : "true"}
         aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
       >
         {favorite ? "★" : "☆"}
       </button>
-    </Form>
+    </fetcher.Form>
   );
 }
 
