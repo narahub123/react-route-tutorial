@@ -47,7 +47,7 @@ const Contact = () => {
           </Form>
           <Form
             method="post"
-            action="destory"
+            action="destroy"
             onSubmit={(e) => {
               if (!confirm("Please confirm you want to delete this record")) {
                 e.preventDefault();
